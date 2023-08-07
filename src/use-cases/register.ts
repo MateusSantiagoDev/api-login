@@ -1,3 +1,4 @@
+import { hash } from 'bcryptjs'
 import { User } from '@prisma/client'
 import { UsersRepository } from '@/repositories/protocols/users-repository'
 
@@ -22,7 +23,7 @@ export class RegisterUseCase {
     const user = await this.usersRepository.create({
       name,
       email,
-      password_hash: password,
+      password_hash: await hash(password, 6),
     })
     return { user }
   }
