@@ -1,1 +1,22 @@
-import { } from 'vitest'
+import { describe, expect, it, beforeEach } from 'vitest'
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { RegisterUseCase } from './register'
+
+let usersRepository: InMemoryUsersRepository
+let sut: RegisterUseCase
+
+describe('Register Use Case', () => {
+  beforeEach(() => {
+    usersRepository = new InMemoryUsersRepository()
+    sut = new RegisterUseCase(usersRepository)
+  })
+
+  it('Should be possible to register a user', async () => {
+    const { user } = await sut.execute({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '123123',
+    })
+    expect(user.id).toEqual(expect.any(String))
+  })
+})
