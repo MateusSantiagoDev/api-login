@@ -5,6 +5,14 @@ import { UsersRepository } from '../protocols/users-repository'
 export class InMemoryUsersRepository implements UsersRepository {
   public items: User[] = []
 
+  async findByEmail(email: string) {
+    const user = this.items.find((item) => item.email === email)
+    if (!user) {
+      return null
+    }
+    return user
+  }
+
   async create(data: Prisma.UserCreateInput) {
     const user = {
       id: randomUUID(),
