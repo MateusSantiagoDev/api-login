@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { MakeAuthenticateUseCase } from '@/use-cases/factories/make-authenticate-use-case'
 import { InvalidCredentialsError } from '@/use-cases/errors/invalid-credentials-error'
 
-export function authenticate(request: FastifyRequest, replay: FastifyReply) {
+export async function authenticate(request: FastifyRequest, replay: FastifyReply) {
   const authenticateSchema = z.object({
     email: z.string().email(),
     password: z.string().min(6),
@@ -13,7 +13,7 @@ export function authenticate(request: FastifyRequest, replay: FastifyReply) {
 
   try {
     const authenticateUseCase = MakeAuthenticateUseCase()
-    authenticateUseCase.execute({
+    await authenticateUseCase.execute({
       email,
       password,
     })
