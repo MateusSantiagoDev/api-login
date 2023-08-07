@@ -19,8 +19,7 @@ export async function register(request: FastifyRequest, replay: FastifyReply) {
   } catch (error) {
     if (error instanceof UserAlreadyExistsError) {
       return replay.status(409).send({ message: error.message })
-    } else {
-      throw error
     }
+    throw error
   }
 }
